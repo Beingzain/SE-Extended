@@ -1,4 +1,4 @@
-name: Debug CI
+name: Debug Cl
 on:
   workflow_dispatch:
       inputs:
@@ -34,26 +34,7 @@ jobs:
 
       - name: Build
         run: ./gradlew assembleArmv8Debug
-
-      - name: Sign APK
-        id: sign_app
-        uses: tiann/zipalign-sign-android-release@v1.1.4
-        with:
-          releaseDirectory: app/build/outputs/apk/armv8/debug/
-          signingKeyBase64: ${{ secrets.JAVA_KEYSTORE_DATA }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Delete Unsigned APK File
-        run: |
-          cd app/build/outputs/apk/armv8/debug/
-          shopt -s extglob
-          rm -rf !(*-signed*)
-          
+   
       - name: Build Version
         run: ./gradlew getVersion
 
@@ -103,25 +84,6 @@ jobs:
 
       - name: Build
         run: ./gradlew assembleArmv7Debug
-
-      - name: Sign APK
-        id: sign_app
-        uses: tiann/zipalign-sign-android-release@v1.1.4
-        with:
-          releaseDirectory: app/build/outputs/apk/armv7/debug/
-          signingKeyBase64: ${{ secrets.JAVA_KEYSTORE_DATA }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Delete Unsigned APK file
-        run: |
-          cd app/build/outputs/apk/armv7/debug/
-          shopt -s extglob
-          rm -rf !(*-signed*)
           
       - name: Build Version
         run: ./gradlew getVersion
@@ -171,27 +133,8 @@ jobs:
         run: rustup target add armv7-linux-androideabi aarch64-linux-android
 
       - name: Build
-        run: ./gradlew assembleAllDebug
-
-      - name: Sign APK
-        id: sign_app
-        uses: tiann/zipalign-sign-android-release@v1.1.4
-        with:
-          releaseDirectory: app/build/outputs/apk/all/debug/
-          signingKeyBase64: ${{ secrets.JAVA_KEYSTORE_DATA }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          zipAlign: true
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Delete Unsigned File
-        run: |
-          cd app/build/outputs/apk/all/debug/
-          shopt -s extglob
-          rm -rf !(*-signed*)
-          
+        run: ./gradlew assembleAllDebug  
+  
       - name: Build Version
         run: ./gradlew getVersion
 
