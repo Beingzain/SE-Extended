@@ -59,8 +59,7 @@ class FeatureManager(
     fun getRuleFeatures() = features.values.filterIsInstance<MessagingRuleFeature>().sortedBy { it.ruleType.ordinal }
 
     fun init() {
-        register(
-            SecurityFeatures(),
+        register( 
             EndToEndEncryption(),
             ScopeSync(),
             PreventMessageListAutoScroll(),
